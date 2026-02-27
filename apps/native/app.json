@@ -3,7 +3,7 @@
     "name": "native",
     "slug": "native",
     "version": "1.0.0",
-    "scheme": "com.turbo.example",
+    "scheme": "ai-photo-reviewer",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
