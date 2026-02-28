@@ -16,6 +16,7 @@
     "@repo/ui": "*",
     "@expo/metro-runtime": "^6.1.2",
     "expo": "~54.0.0",
+      "@expo/ngrok": "^4.1.0",
     "expo-constants": "~18.0.13",
     "expo-linking": "~8.0.11",
     "expo-router": "~6.0.23",
