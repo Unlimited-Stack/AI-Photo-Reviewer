@@ -13,7 +13,6 @@
       ]
     }
   },
-  "forwardPorts": [3000, 8080],
   "remoteUser": "vscode",
   "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && git lfs install --system || true && git lfs install --local --force || true",
   "features": {}

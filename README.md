@@ -77,8 +77,4 @@
    - 支持热更新（修改代码自动同步到手机）
 npm install
    
-提示：端口策略已固定为 Web=3000、Native(Web/Tunnel)=8080，容器启动时**不自动**清理这两个端口以避免与容器初始化冲突。如果遇到端口被占用，可手动运行：
-```bash
-sh .devcontainer/scripts/port-cleanup.sh
-```
-该脚本会杀死残留的 Expo/Next.js 进程并释放端口。之后重新执行 `npm run dev` 即可。两个端口已在 `devcontainer.json` 中配置为 `public`，开启容器后会自动暴露到互联网。
+提示：端口策略已固定为 Web=3000、Native(Web/Tunnel)=8080。容器不会自动启动开发服务；启动请手动运行 `npm run dev`（Web）或 `npm run dev:mobile`（移动真机）。
