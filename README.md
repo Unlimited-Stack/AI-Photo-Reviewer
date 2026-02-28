@@ -77,4 +77,4 @@
    - 支持热更新（修改代码自动同步到手机）
 npm install
    
-提示：端口策略已固定为 Web=3000、Native(Web/Tunnel)=8080。容器不会自动启动开发服务；启动请手动运行 `npm run dev`（Web）或 `npm run dev:mobile`（移动真机）。
+提示：端口策略已固定为 Web=3000、Native(Web/Tunnel)=8080。之前为了避免与 Expo Web Preview (8080) 的冲突，脚本曾改用 8082，但实际上你不需要多个并行运行，所以端口已改回 8080。Expo 在启动时会询问占用情况，如果你同时用 `npm run dev`，会提示是否切换端口——那就是为什么它“老是改为 8081”，因为 Metro 检测到 8080 被占用了。现在只要不要同时启动两个实例即可保持使用 8080。容器不会自动启动开发服务；启动请手动运行 `npm run dev`（Web）或 `npm run dev:mobile`（移动真机）。
