@@ -1,5 +1,7 @@
+"use client";
+
 import { ProfileScreen } from "@repo/ui";
 
-export default function ProfileTab() {
+export default function ProfilePage() {
   return <ProfileScreen />;
 }
