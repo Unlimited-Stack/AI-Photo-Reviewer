@@ -15,4 +15,6 @@
   },
   "forwardPorts": [3000, 8081],
   "remoteUser": "node"
+  ,
+  "postCreateCommand": "git lfs install --skip-repo || true"
 }

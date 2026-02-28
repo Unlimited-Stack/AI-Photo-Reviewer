@@ -4,9 +4,11 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:20
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y \
     git \
+    git-lfs \
     curl \
     wget \
     android-tools-adb \
+    && git lfs install --system \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 全局安装 expo-cli 和 eas-cli
