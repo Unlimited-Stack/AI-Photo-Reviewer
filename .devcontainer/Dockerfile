@@ -1,15 +1,15 @@
-FROM mcr.microsoft.com/devcontainers/javascript-node:20
+FROM mcr.microsoft.com/devcontainers/base:alpine
 
-# 安装常用工具和 Expo 开发所需的依赖
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y \
+# 安装常用工具与前端构建所需依赖（Alpine）
+RUN apk add --no-cache \
     git \
     git-lfs \
     curl \
     wget \
-    android-tools-adb \
-    && git lfs install --system \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    nodejs \
+    npm \
+    android-tools \
+    && git lfs install --system
 
-# 全局安装 expo-cli 和 eas-cli
+# 全局安装 Expo / EAS / 工具
 RUN npm install -g expo-cli eas-cli npm-check-updates

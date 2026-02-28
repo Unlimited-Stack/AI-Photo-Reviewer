@@ -2,7 +2,7 @@
   "name": "AI Photo Reviewer Dev Env",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -14,7 +14,6 @@
     }
   },
   "forwardPorts": [3000, 8081],
-  "remoteUser": "node"
-  ,
-  "postCreateCommand": "git lfs install --skip-repo || true"
+  "remoteUser": "vscode",
+  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && git lfs install --system || true && git lfs install --local --force || true"
 }

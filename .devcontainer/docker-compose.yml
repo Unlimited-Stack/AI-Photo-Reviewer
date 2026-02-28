@@ -5,8 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ../:/workspace:cached
+      - ..:/workspaces:cached
     # 保持容器一直运行
-    command: /bin/sh -c "while sleep 1000; do :; done"
-    # 预留给后续可能加入的 db 服务等
-    network_mode: service:app
+    command: sleep infinity
+    # 如需加入 DB/Redis 等服务，可在此文件新增对应服务并用默认网络
