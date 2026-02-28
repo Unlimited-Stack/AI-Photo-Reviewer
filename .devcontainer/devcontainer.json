@@ -13,7 +13,9 @@
       ]
     }
   },
-  "forwardPorts": [3000, 8081],
+  "forwardPorts": [3000, 8080],
   "remoteUser": "vscode",
-  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && git lfs install --system || true && git lfs install --local --force || true"
+  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && git lfs install --system || true && git lfs install --local --force || true && sh .devcontainer/scripts/port-cleanup.sh || true",
+  "postStartCommand": "sh .devcontainer/scripts/port-cleanup.sh || true",
+  "postAttachCommand": "sh .devcontainer/scripts/port-cleanup.sh || true"
 }

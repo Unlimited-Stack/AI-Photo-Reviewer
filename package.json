@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
-    "dev:mobile": "turbo run dev --filter=native -- --tunnel",
+    "dev:mobile": "turbo run dev:tunnel --filter=native",
+    "dev:mobile:clear": "turbo run dev:tunnel:clear --filter=native",
     "build": "turbo run build",
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore"

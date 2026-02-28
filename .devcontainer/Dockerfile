@@ -6,6 +6,8 @@ RUN apk add --no-cache \
     git-lfs \
     curl \
     wget \
+    lsof \
+    psmisc \
     nodejs \
     npm \
     android-tools \
