@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
+    "dev:clear": "turbo run dev:clear",
     "dev:mobile": "turbo run dev:tunnel --filter=native",
     "dev:mobile:clear": "turbo run dev:tunnel:clear --filter=native",
     "build": "turbo run build",

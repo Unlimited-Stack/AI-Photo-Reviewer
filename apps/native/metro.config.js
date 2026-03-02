@@ -1,21 +1,22 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
-const { getDefaultConfig } = require("expo/metro-config");
-const path = require("path");
+const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
 
-// Find the workspace root, this can be replaced with `find-yarn-workspace-root`
-const workspaceRoot = path.resolve(__dirname, "../..");
+// 找到 native 项目目录和 Monorepo 根目录
 const projectRoot = __dirname;
+const workspaceRoot = path.resolve(projectRoot, '../..');
 
 const config = getDefaultConfig(projectRoot);
 
-// 1. Watch all files within the monorepo
+// 1. 监控 Monorepo 根目录，使得 UI 包和全局 node_modules 能被识别
 config.watchFolders = [workspaceRoot];
-// 2. Let Metro know where to resolve packages, and in what order
+
+// 2. 让 Metro 优先在 native 目录下找依赖，找不到再去根目录找
 config.resolver.nodeModulesPaths = [
-  path.resolve(projectRoot, "node_modules"),
-  path.resolve(workspaceRoot, "node_modules"),
+  path.resolve(projectRoot, 'node_modules'),
+  path.resolve(workspaceRoot, 'node_modules'),
 ];
-// 3. Force Metro to resolve (sub)dependencies only from the `nodeModulesPaths`
+
+// 3. 确保 Expo Router 在 Monorepo 中正常工作
 config.resolver.disableHierarchicalLookup = true;
 
 module.exports = config;

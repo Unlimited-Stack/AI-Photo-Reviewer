@@ -39,42 +39,44 @@
    ```
    - 安装根目录、apps、packages 中所有工作区的依赖
 
-3. **启动开发服务**
+3. **启动开发服务（Monorepo）**
    ```bash
    npm run dev
    ```
    - 此命令会并行启动：
-     - **Web** (Next.js 16) → http://localhost:3000
-   - **Native** (Expo Web Preview) → http://localhost:8080
-     - **UI Package** (tsup watch) → 自动编译
+     - **Web (Next.js)**: http://localhost:3000
+     - **Native Metro (Expo)**: 默认端口 8080（若冲突会自动切到 8081）
+     - **UI Package (tsup watch)**: 自动编译共享组件
 
-### 三种应用预览方式
+### 三种预览方式（建议按目的选择）
 
-#### 方式 1: Web 端预览（推荐用于快速调试）
-1. `npm run dev` 启动后，访问 http://localhost:3000
-2. 在浏览器中看到完整的 Web 界面与 5 个 Tab
+#### 方式 1: Web 端业务页面（推荐）
+1. 运行 `npm run dev`
+2. 访问 http://localhost:3000
+3. 这里是 Next.js 的业务页面入口
 
-#### 方式 2: Expo Web 预览（测试移动端 UI）
-1. `npm run dev` 启动后，访问 http://localhost:8080
-2. 在浏览器的 Expo Web 模拟器中查看 React Native 组件渲染效果
-3. 修改代码自动热更新
+#### 方式 2: Native 的浏览器预览（Expo Web）
+1. 进入 Native 应用目录并启动：
+   ```bash
+   cd apps/native
+   npm run web
+   ```
+2. 通过 Expo Web 预览 React Native 页面（使用 `app/` 路由）
 
-#### 方式 3: 真实移动设备预览（需要校园网/手机热点）
-1. 运行（替代 `npm run dev`）：
+#### 方式 3: 真机预览（Expo Tunnel）
+1. 在仓库根目录运行：
    ```bash
    npm run dev:mobile
    ```
-   - 或直接进 native 目录：
+   - 若遇到缓存或路由异常，运行：
    ```bash
-   cd apps/native && npm run dev:tunnel
+   npm run dev:mobile:clear
    ```
+2. 终端出现二维码后，用 **Expo Go** 扫码进入
+3. 默认进入业务 Tabs 页面（`app/index.tsx` 会重定向到 `/(tabs)`）
 
-2. 等待终端显示二维码（Expo Tunnel 公网地址）
-
-3. 安装 **Expo Go** App（iOS App Store 或 Android Google Play）
-
-4. 扫码进入，实时预览原生 5 Tab 界面
-   - 支持热更新（修改代码自动同步到手机）
-npm install
-   
-端口策略已固定为 Web=3000、Native(Web/Tunnel)=8080。`npm run dev` 中的 native 脚本显式添加了 `--port 8080`，所以 Expo CLI 不会自动升到 8081 除非 8080 已被另一个进程占用。之前你看到它切换到 8081 是因为当时已有程序（例如之前的 Metro）在 8080 上运行，Expo 便会询问并自动选择下一个空闲端口；它不是我擅自改的端口，而是 Expo 的自动防撞机制。只要不要同时运行两个 Expo 实例即可一直坚持使用 8080。容器不会自动启动开发服务；启动请手动运行 `npm run dev`（Web）或 `npm run dev:mobile`（移动真机）。
+### 端口与入口说明（避免误判）
+- `3000` 是 **Web 业务页面入口**（Next.js）。
+- `8080/8081` 是 Expo 开发服务端口（Metro/Expo Web）。  
+  访问到哪个页面取决于启动模式，不应将其等同于 Next.js 的 Web 业务入口。
+- 当 `8080` 被占用时，Expo 自动切到 `8081` 属正常行为，不代表路由配置失败。
