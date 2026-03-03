@@ -5,15 +5,25 @@
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "customizations": {
     "vscode": {
+      // 👇 新增：将 VS Code 设置持久化到容器中
+      "settings": {
+        "http.proxy": "http://host.docker.internal:7897",
+        "https.proxy": "http://host.docker.internal:7897",
+        "http.proxyStrictSSL": false
+      },
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
-        "expo.vscode-expo-tools"
+        "expo.vscode-expo-tools",
+        "openai.chatgpt",
+        "yzhang.markdown-all-in-one",
+        "GitHub.copilot-chat"
       ]
     }
   },
   "remoteUser": "vscode",
-  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && git lfs install --system || true && git lfs install --local --force || true",
+  // 👇 修改：将 Git 邮箱配置拼接到环境启动脚本中
+  "postCreateCommand": "git config --global user.name \"LGJ\" && git config --global user.email \"1752104296@qq.com\" && git config --global --add safe.directory ${containerWorkspaceFolder} && git lfs install --system || true && git lfs install --local --force || true",
   "features": {}
 }
