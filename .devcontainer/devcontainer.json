@@ -2,7 +2,7 @@
   "name": "AI Photo Reviewer Dev Env",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/workspaces",
   "customizations": {
     "vscode": {
       // 👇 新增：将 VS Code 设置持久化到容器中
@@ -23,7 +23,7 @@
     }
   },
   "remoteUser": "vscode",
-  // 👇 修改：将 Git 邮箱配置拼接到环境启动脚本中
-  "postCreateCommand": "git config --global user.name \"LGJ\" && git config --global user.email \"1752104296@qq.com\" && git config --global --add safe.directory ${containerWorkspaceFolder} && git lfs install --system || true && git lfs install --local --force || true",
+  // 使用单行 shell 命令，确保由 /bin/sh 解析并顺序执行
+  "postCreateCommand": "git config --global user.name 'LGJ' && git config --global user.email '1752104296@qq.com' && git config --global --add safe.directory ${containerWorkspaceFolder} && (git lfs install --system || true) && (git lfs install --local --force || true)",
   "features": {}
 }

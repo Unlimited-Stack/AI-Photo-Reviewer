@@ -22,7 +22,7 @@
   - `packages/eslint-config-custom`: 统一的代码规范。
 - **开发环境**: Docker + GitHub Codespaces (内置 Node.js, Expo CLI, Ngrok 内网穿透)。
 
-## 🚀 快速开始（云原生环境）
+## 🚀 快速开始（云原生环境 / SDK 55）
 
 ### 前置需求
 - GitHub Codespaces 或本地 Docker + Dev Container
@@ -48,6 +48,14 @@
      - **Native Metro (Expo)**: 默认端口 8080（若冲突会自动切到 8081）
      - **UI Package (tsup watch)**: 自动编译共享组件
 
+   可选：仅起 Web 或仅起移动端
+   ```bash
+   # 仅 Web（含 @repo/ui 编译）
+   npm run dev:web
+   # 仅移动端（LAN 模式）
+   npm run dev:native
+   ```
+
 ### 三种预览方式（建议按目的选择）
 
 #### 方式 1: Web 端业务页面（推荐）
@@ -72,6 +80,7 @@
    ```bash
    npm run dev:mobile:clear
    ```
+   - 若你在 Dev Container/Codespaces（headless Alpine）内，建议使用 `dev:mobile`（tunnel）以获得更稳定的扫码连接。
 2. 终端出现二维码后，用 **Expo Go** 扫码进入
 3. 默认进入业务 Tabs 页面（`app/index.tsx` 会重定向到 `/(tabs)`）
 
@@ -80,3 +89,20 @@
 - `8080/8081` 是 Expo 开发服务端口（Metro/Expo Web）。  
   访问到哪个页面取决于启动模式，不应将其等同于 Next.js 的 Web 业务入口。
 - 当 `8080` 被占用时，Expo 自动切到 `8081` 属正常行为，不代表路由配置失败。
+
+### 容器环境与配置持久化
+- Dev Container 基础镜像为 Alpine；已在 [/.devcontainer/Dockerfile](.devcontainer/Dockerfile) 预装 `gcompat` 与 `libstdc++` 以提升对 glibc 链接二进制的兼容性。
+- 如遇到 Expo 未输出二维码/链接，请检查外部环境是否设置了 `CI` 等会导致非交互模式的环境变量。
+- 若你修改了 devcontainer 配置，请在 VS Code 中执行一次容器重建：
+   ```bash
+   # 命令面板
+   Dev Containers: Rebuild Container
+   ```
+
+### SDK 55 版本矩阵（已对齐）
+- Expo SDK: ~55.0.0
+- React: 19.2.x
+- React Native: 0.83.x
+- Expo Router: ~6.0.23
+
+> 说明：Web 同步使用 React 19.2；`packages/ui` 对应的 peer/dev 依赖已对齐 SDK 55，避免多版本冲突。

@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --filter=@repo/ui --filter=web --filter=native",
     "dev:web": "turbo run dev --filter=@repo/ui --filter=web",
     "dev:native": "turbo run dev --filter=native",
     "dev:web+mobile": "concurrently -k -n WEB,MOBILE \"npm:dev:web\" \"npm:dev:mobile\"",
