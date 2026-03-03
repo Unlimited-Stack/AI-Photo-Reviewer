@@ -2,6 +2,9 @@
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=@repo/ui --filter=web",
+    "dev:native": "turbo run dev --filter=native",
+    "dev:web+mobile": "concurrently -k -n WEB,MOBILE \"npm:dev:web\" \"npm:dev:mobile\"",
     "dev:clear": "turbo run dev:clear",
     "dev:mobile": "turbo run dev:tunnel --filter=native",
     "dev:mobile:clear": "turbo run dev:tunnel:clear --filter=native",
@@ -10,6 +13,11 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore"
   },
   "devDependencies": {
+    "babel-plugin-transform-inline-environment-variables": "^0.4.4",
+    "concurrently": "^8.2.2",
+    "@types/node": "^20.11.0",
+    "@types/react": "~19.1.10",
+    "@types/react-dom": "~19.1.5",
     "@types/minimatch": "^6.0.0",
     "prettier": "^3.1.1",
     "turbo": "^2.8.11"

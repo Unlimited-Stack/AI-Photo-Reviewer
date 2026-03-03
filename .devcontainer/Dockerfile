@@ -8,6 +8,8 @@ RUN apk add --no-cache \
     wget \
     lsof \
     psmisc \
+    gcompat \
+    libstdc++ \
     nodejs \
     npm \
     android-tools \
