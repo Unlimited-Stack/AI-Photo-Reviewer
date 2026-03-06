@@ -1,19 +1,11 @@
 import { Tabs } from "expo-router";
-import { TabIcon } from "@repo/ui";
+import { TabIcon, LiquidTabBar } from "@repo/ui";
 
 export default function TabLayout() {
   return (
     <Tabs
+      tabBar={(props) => <LiquidTabBar {...props} />}
       screenOptions={{
-        tabBarActiveTintColor: "#FF2D55",
-        tabBarInactiveTintColor: "#999",
-        tabBarStyle: {
-          backgroundColor: "#fff",
-          borderTopWidth: 0.5,
-          borderTopColor: "#eee",
-          height: 60,
-          paddingBottom: 8,
-        },
         headerShown: false,
       }}
     >

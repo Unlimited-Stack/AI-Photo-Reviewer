@@ -9,7 +9,7 @@ export default defineConfig((options: Options) => ({
   },
   clean: true,
   format: ["cjs", "esm"],
-  external: ["react", "react-native"],
+  external: ["react", "react-native", "expo-blur", "react-native-safe-area-context"],
   dts: true,
   ...options,
 }));

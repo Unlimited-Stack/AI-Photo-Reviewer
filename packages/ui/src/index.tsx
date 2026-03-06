@@ -1,6 +1,7 @@
 // Components
 export { Button, type ButtonProps } from "./button";
 export { TabIcon, type TabIconProps } from "./components/TabIcon";
+export { LiquidTabBar, type LiquidTabBarProps } from "./components/LiquidTabBar";
 
 // Screens
 export { MessageScreen } from "./screens/MessageScreen";
