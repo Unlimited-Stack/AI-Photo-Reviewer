@@ -2,6 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npm run build)"
+    ],
+    "additionalDirectories": [
+      "/workspaces/packages/ui/src"
     ]
   }
 }

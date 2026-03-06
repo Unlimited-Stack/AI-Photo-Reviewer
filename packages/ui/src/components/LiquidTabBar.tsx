@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTheme } from "../theme/ThemeContext";
 
 interface Route {
   key: string;
@@ -44,11 +45,11 @@ const CONTAINER_HEIGHT = PILL_HEIGHT + PILL_VERTICAL_MARGIN * 2;
 
 export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
   const insets = useSafeAreaInsets();
+  const { colors, isDark } = useTheme();
   const [containerWidth, setContainerWidth] = useState(0);
   const [pillVisible, setPillVisible] = useState(false);
 
   const tabWidth = containerWidth > 0 ? containerWidth / state.routes.length : 0;
-
   const pillX = useRef(new Animated.Value(0)).current;
 
   const handleLayout = useCallback(
@@ -56,7 +57,6 @@ export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
       const width = e.nativeEvent.layout.width;
       setContainerWidth(width);
       const tw = width / state.routes.length;
-      // Set pill position immediately without animation on first layout
       pillX.setValue(state.index * tw + PILL_HORIZONTAL_PADDING);
       setPillVisible(true);
     },
@@ -76,7 +76,6 @@ export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
         navigation.navigate(routeName);
       }
 
-      // Animate pill to new position
       if (tabWidth > 0) {
         Animated.spring(pillX, {
           toValue: index * tabWidth + PILL_HORIZONTAL_PADDING,
@@ -91,52 +90,27 @@ export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
   );
 
   const pillWidth = tabWidth > 0 ? tabWidth - PILL_HORIZONTAL_PADDING * 2 : 0;
-
   const isAndroid = Platform.OS === "android";
-
-  return (
-    <View
-      style={[
-        styles.wrapper,
-        { bottom: 12 + insets.bottom },
-      ]}
-    >
-      {isAndroid ? (
-        <View style={[styles.container, styles.androidContainer]}>
-          {renderInner()}
-        </View>
-      ) : (
-        <BlurView
-          intensity={70}
-          tint="systemUltraThinMaterial"
-          style={styles.container}
-        >
-          {renderInner()}
-        </BlurView>
-      )}
-    </View>
-  );
+  const blurTint = isDark ? "systemUltraThinMaterialDark" : "systemUltraThinMaterial";
 
   function renderInner() {
     return (
       <View style={styles.innerRow} onLayout={handleLayout}>
-        {/* Sliding pill */}
         {pillVisible && tabWidth > 0 && (
           <Animated.View
             style={[
               styles.pill,
               {
                 width: pillWidth,
+                backgroundColor: colors.pillColor,
                 transform: [{ translateX: pillX }],
               },
             ]}
           />
         )}
 
-        {/* Tab items */}
         {state.routes.map((route, index) => {
-          const tab =
-            TABS.find((t) => t.name === route.name) ?? TABS[index] ?? TABS[0];
+          const tab = TABS.find((t) => t.name === route.name) ?? TABS[index] ?? TABS[0];
           const isFocused = state.index === index;
 
           return (
@@ -148,7 +122,11 @@ export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
             >
               <Text style={styles.icon}>{tab.icon}</Text>
               <Text
-                style={[styles.label, isFocused && styles.labelActive]}
+                style={[
+                  styles.label,
+                  { color: colors.subtitle },
+                  isFocused && { color: colors.accent, fontWeight: "700" },
+                ]}
                 numberOfLines={1}
               >
                 {tab.label}
@@ -159,6 +137,20 @@ export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
       </View>
     );
   }
+
+  return (
+    <View style={[styles.wrapper, { bottom: 12 + insets.bottom }]}>
+      {isAndroid ? (
+        <View style={[styles.container, { backgroundColor: colors.tabBarBg }]}>
+          {renderInner()}
+        </View>
+      ) : (
+        <BlurView intensity={70} tint={blurTint} style={styles.container}>
+          {renderInner()}
+        </BlurView>
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -173,29 +165,22 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 0.5,
     borderColor: "rgba(255,255,255,0.6)",
-    // Shadow for depth
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 16,
     elevation: 16,
   },
-  androidContainer: {
-    backgroundColor: "rgba(245,245,245,0.93)",
-  },
   innerRow: {
     flexDirection: "row",
     height: CONTAINER_HEIGHT,
     alignItems: "center",
-    paddingHorizontal: 0,
   },
   pill: {
     position: "absolute",
     height: PILL_HEIGHT,
     top: PILL_VERTICAL_MARGIN,
     borderRadius: 22,
-    backgroundColor: "rgba(255,255,255,0.38)",
-    // Subtle inner highlight
     borderWidth: 0.5,
     borderColor: "rgba(255,255,255,0.8)",
   },
@@ -211,12 +196,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 10,
-    color: "rgba(100,100,100,0.7)",
     marginTop: 1,
     fontWeight: "500",
-  },
-  labelActive: {
-    color: "#FF2D55",
-    fontWeight: "700",
   },
 });

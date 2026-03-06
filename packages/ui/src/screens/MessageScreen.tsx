@@ -1,11 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
+import { useTheme } from "../theme/ThemeContext";
 
 export function MessageScreen() {
+  const { colors } = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.bg }]}>
       <Text style={styles.emoji}>💬</Text>
-      <Text style={styles.title}>消息 / 公告</Text>
-      <Text style={styles.subtitle}>系统通知与 AI 锐评推送将在这里展示</Text>
+      <Text style={[styles.title, { color: colors.text }]}>消息 / 公告</Text>
+      <Text style={[styles.subtitle, { color: colors.subtitle }]}>
+        系统通知与 AI 锐评推送将在这里展示
+      </Text>
     </View>
   );
 }
@@ -13,7 +17,6 @@ export function MessageScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F8F8",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -24,12 +27,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: "#999",
     textAlign: "center",
     paddingHorizontal: 40,
   },

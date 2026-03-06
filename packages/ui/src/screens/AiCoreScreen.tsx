@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
+import { useTheme } from "../theme/ThemeContext";
 
 export function AiCoreScreen() {
+  const { colors } = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.bg }]}>
       <Text style={styles.emoji}>✨</Text>
-      <Text style={styles.title}>AI 锐评核心</Text>
+      <Text style={[styles.title, { color: colors.accent }]}>AI 锐评核心</Text>
       <Text style={styles.badge}>CORE</Text>
-      <Text style={styles.subtitle}>
+      <Text style={[styles.subtitle, { color: colors.subtitle }]}>
         上传相片 · 选择风格 · 获取 AI 多模态点评{"\n"}
         🔥 毒舌吐槽 &nbsp; 🌈 彩虹屁 &nbsp; 🧐 专业摄影师
       </Text>
@@ -17,7 +19,6 @@ export function AiCoreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF0F3",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -28,7 +29,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#FF2D55",
     marginBottom: 8,
   },
   badge: {
@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: "#666",
     textAlign: "center",
     paddingHorizontal: 40,
     lineHeight: 22,

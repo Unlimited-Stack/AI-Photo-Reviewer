@@ -1,11 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
+import { useTheme } from "../theme/ThemeContext";
 
 export function FeedScreen() {
+  const { colors } = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.bg }]}>
       <Text style={styles.emoji}>🌊</Text>
-      <Text style={styles.title}>灵感瀑布流</Text>
-      <Text style={styles.subtitle}>社区精彩相片与 AI 点评双列信息流</Text>
+      <Text style={[styles.title, { color: colors.text }]}>灵感瀑布流</Text>
+      <Text style={[styles.subtitle, { color: colors.subtitle }]}>
+        社区精彩相片与 AI 点评双列信息流
+      </Text>
     </View>
   );
 }
@@ -13,7 +17,6 @@ export function FeedScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF5F7",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -24,12 +27,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: "#999",
     textAlign: "center",
     paddingHorizontal: 40,
   },
