@@ -3,6 +3,7 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces",
+  
   // 👇 新增：将 VS Code 设置持久化到容器中
   "customizations": {
     "vscode": {
@@ -16,19 +17,31 @@
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
         "expo.vscode-expo-tools",
-        "openai.chatgpt",
         "yzhang.markdown-all-in-one",
-        "GitHub.copilot-chat"
+        "GitHub.copilot-chat",
+        "anthropic.claude-code",
+        "openai.chatgpt"
       ]
     }
   },
+
   "remoteEnv": {
+    // 大写 —— 部分工具 / 库读大写
     "HTTP_PROXY": "http://host.docker.internal:7897",
     "HTTPS_PROXY": "http://host.docker.internal:7897",
-    "NO_PROXY": "localhost,127.0.0.1"
+    // 小写 —— Node.js 生态 (node-fetch, undici, axios …) 常读小写
+    "http_proxy": "http://host.docker.internal:7897",
+    "https_proxy": "http://host.docker.internal:7897",
+    "NO_PROXY": "localhost,127.0.0.1",
+    "no_proxy": "localhost,127.0.0.1",
+    // 代理环境下避免自签证书 / 中间人证书导致 TLS 握手失败
+    "NODE_TLS_REJECT_UNAUTHORIZED": "0"
   },
+
   "remoteUser": "node",
-  // 使用单行 shell 命令，确保由 /bin/sh 解析并顺序执行
-  "postCreateCommand": "git config --global user.name 'LGJ' && git config --global user.email '1752104296@qq.com' && git config --global --add safe.directory ${containerWorkspaceFolder} && (git lfs install --system || true) && (git lfs install --local --force || true)",
+
+  // 使用单行 shell 命令，确保由 /bin/sh 解析并顺序执行，并修复 .claude 目录权限 + git 配置
+  "postCreateCommand": "git config --global user.name 'LGJ' && git config --global user.email '1752104296@qq.com' && git config --global --add safe.directory /workspaces && (git lfs install --system || true) && (git lfs install --local --force || true)",
+
   "features": {}
 }

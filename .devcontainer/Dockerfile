@@ -39,5 +39,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && git lfs install --system
 
-# 可选：全局安装工具（项目本身已锁定本地 expo 依赖，不强制全局）
-# RUN npm install -g eas-cli npm-check-updates
+# 预创建 volume 挂载点并设置正确权限
+# 这样 Docker 挂载命名 volume 时目录已存在且 owner 是 node，
+# 避免 Docker 自动创建 root 权限目录导致 VS Code Server 写入失败
+RUN mkdir -p /home/node/.vscode-server /home/node/.claude \
+    && chown -R node:node /home/node/.vscode-server /home/node/.claude

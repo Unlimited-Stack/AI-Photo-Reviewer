@@ -1,1 +1,4 @@
 node_modules
+
+# Claude Code 本地数据（命名 volume，不提交）
+.devcontainer/claude-home/
