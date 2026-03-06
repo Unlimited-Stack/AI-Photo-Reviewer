@@ -1,3 +1,7 @@
+/**
+ * CardsScreen.tsx
+ * 「神评卡片」页面，背景和文字颜色通过 useTheme() 响应深浅色模式切换。
+ */
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
 

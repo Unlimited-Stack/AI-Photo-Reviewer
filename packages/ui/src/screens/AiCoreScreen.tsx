@@ -1,3 +1,8 @@
+/**
+ * AiCoreScreen.tsx
+ * 「AI 锐评」页面，背景和文字颜色通过 useTheme() 响应深浅色模式切换。
+ * accent 标题色和 badge 背景色（#FF2D55）固定使用品牌红，不随主题变化。
+ */
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
 
