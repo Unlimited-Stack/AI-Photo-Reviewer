@@ -9,6 +9,6 @@ export { LiquidTabBar, type LiquidTabBarProps } from "./components/LiquidTabBar"
 // Screens
 export { MessageScreen } from "./screens/MessageScreen";
 export { FeedScreen } from "./screens/FeedScreen";
-export { AiCoreScreen } from "./screens/AiCoreScreen";
+export { AiCoreScreen, type AiCoreScreenProps } from "./screens/AiCoreScreen";
 export { CardsScreen } from "./screens/CardsScreen";
 export { ProfileScreen } from "./screens/ProfileScreen";

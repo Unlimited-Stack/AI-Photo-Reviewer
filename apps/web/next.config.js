@@ -4,6 +4,8 @@ module.exports = {
   turbopack: {
     resolveAlias: {
       "react-native": "react-native-web",
+      "react-native-safe-area-context": "./stubs/react-native-safe-area-context.js",
+      "expo-blur": "./stubs/expo-blur.js",
     },
     resolveExtensions: [
       ".web.js",
