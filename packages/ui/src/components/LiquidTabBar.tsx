@@ -13,7 +13,7 @@
  *   - onLayout 完成后才显示药丸，避免首帧位置错误
  */
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, type ComponentType } from "react";
 import {
   View,
   Text,
@@ -26,6 +26,9 @@ import {
 import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "../theme/ThemeContext";
+import {
+  MessageIcon, CommunityIcon, PlusCircleIcon, CompassIcon, PersonIcon,
+} from "./TabIcons";
 
 // expo-router 传入的路由单项类型（简化）
 interface Route {
@@ -49,14 +52,14 @@ export interface LiquidTabBarProps {
   };
 }
 
-// 各 tab 的静态配置：路由名称、emoji 图标、显示文字
+// 各 tab 的静态配置：路由名称、SVG 图标组件、显示文字
 // 顺序须与 (tabs)/_layout.tsx 中 Tabs.Screen 的声明顺序一致
-const TABS = [
-  { name: "index",    icon: "💬", label: "消息" },
-  { name: "feed",     icon: "🌊", label: "瀑布流" },
-  { name: "ai-core",  icon: "✨", label: "锐评" },
-  { name: "cards",    icon: "🃏", label: "神评" },
-  { name: "profile",  icon: "👤", label: "我的" },
+const TABS: { name: string; Icon: ComponentType<{ size?: number; color?: string }>; label: string }[] = [
+  { name: "index",    Icon: MessageIcon,     label: "消息" },
+  { name: "feed",     Icon: CommunityIcon,   label: "社区" },
+  { name: "ai-core",  Icon: PlusCircleIcon,  label: "锐评" },
+  { name: "cards",    Icon: CompassIcon,     label: "发现" },
+  { name: "profile",  Icon: PersonIcon,      label: "我的" },
 ];
 
 // ── 尺寸常量 ────────────────────────────────────────────────────────────
@@ -156,6 +159,8 @@ export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
           // 根据路由名称匹配静态 TABS 配置；匹配不到时按下标取（兜底）
           const tab = TABS.find((t) => t.name === route.name) ?? TABS[index] ?? TABS[0];
           const isFocused = state.index === index;
+          // 图标颜色：选中时品牌色，未选中时副标题色
+          const iconColor = isFocused ? colors.accent : colors.subtitle;
 
           return (
             <TouchableOpacity
@@ -164,7 +169,7 @@ export function LiquidTabBar({ state, navigation }: LiquidTabBarProps) {
               onPress={() => handleTabPress(route.name, route.key, index)}
               activeOpacity={0.7} // 点按时轻微变暗，提供视觉反馈
             >
-              <Text style={styles.icon}>{tab.icon}</Text>
+              <tab.Icon size={22} color={iconColor} />
               <Text
                 style={[
                   styles.label,
@@ -242,10 +247,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: CONTAINER_HEIGHT,
   },
-  // emoji 图标
+  // SVG 图标容器
   icon: {
-    fontSize: 22,
-    lineHeight: 26,
+    width: 22,
+    height: 22,
+    alignItems: "center" as const,
+    justifyContent: "center" as const,
   },
   // 文字标签（基础样式，激活状态通过内联覆盖）
   label: {

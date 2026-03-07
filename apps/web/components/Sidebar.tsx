@@ -1,59 +1,101 @@
 /**
  * Sidebar.tsx — Web 端液态玻璃侧边栏
- * 仿照 Native 端 LiquidTabBar 的视觉风格，以纯 CSS 实现：
- *   - backdrop-filter 毛玻璃效果
- *   - 选中项带平滑滑动的"液态药丸"指示器
- *   - 深色/浅色模式自动切换
  *
- * 布局参考：类似微信桌面端，左侧固定窄栏，图标 + 文字纵向排列。
+ * 特性：
+ *   - 点击顶部 Logo / 展开按钮可切换 展开(icon+文字) / 收起(仅icon) 两种模式
+ *   - 展开收起过程中药丸、标签、宽度均有平滑过渡动画
+ *   - 图标与 Native 端共享同一套 react-native-svg 组件（通过 Web stub 渲染为 HTML SVG）
+ *   - 选中项使用液态玻璃药丸高亮，切换 tab 时药丸纵向平滑滑动
  */
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
+import {
+  MessageIcon, CommunityIcon, PlusCircleIcon, CompassIcon, PersonIcon,
+  PaletteIcon, SidebarToggleIcon,
+} from "@repo/ui";
 
-// 导航项配置——与 Native 端 LiquidTabBar 的 TABS 保持一致
+/* ================================================================
+ * 导航项配置——与 Native 端 LiquidTabBar 的 TABS 保持一致
+ * ================================================================ */
 const NAV_ITEMS = [
-  { href: "/messages", icon: "\u{1F4AC}", label: "\u6D88\u606F" },
-  { href: "/feed",     icon: "\u{1F30A}", label: "\u7011\u5E03\u6D41" },
-  { href: "/ai-core",  icon: "\u2728",    label: "\u9510\u8BC4" },
-  { href: "/cards",    icon: "\u{1F0CF}", label: "\u795E\u8BC4" },
-  { href: "/profile",  icon: "\u{1F464}", label: "\u6211\u7684" },
+  { href: "/messages", Icon: MessageIcon,    label: "消息" },
+  { href: "/feed",     Icon: CommunityIcon,  label: "社区" },
+  { href: "/ai-core",  Icon: PlusCircleIcon, label: "锐评" },
+  { href: "/cards",    Icon: CompassIcon,    label: "发现" },
+  { href: "/profile",  Icon: PersonIcon,     label: "我的" },
 ];
 
+// 每个导航项的高度 + 间距，用于计算药丸 translateY
+const ITEM_HEIGHT = 44;
+const ITEM_GAP = 4;
+const PILL_STEP = ITEM_HEIGHT + ITEM_GAP;
+
+/* ================================================================
+ * Sidebar 组件
+ * ================================================================ */
 interface SidebarProps {
-  isDark: boolean; // 当前是否深色模式
+  isDark: boolean;
 }
 
 export function Sidebar({ isDark }: SidebarProps) {
+  const [expanded, setExpanded] = useState(false);
   const pathname = usePathname();
 
-  // 计算当前激活项的索引，用于定位药丸位置
+  // 当前激活项索引
   const activeIndex = useMemo(() => {
     const idx = NAV_ITEMS.findIndex((item) => pathname.startsWith(item.href));
-    // 首页 "/" 默认高亮第一项
     return idx >= 0 ? idx : 0;
   }, [pathname]);
 
-  // 药丸的 Y 轴偏移量：每项高度 52px + gap 2px = 54px 步进
-  const pillY = activeIndex * 54;
+  // 药丸 Y 偏移
+  const pillY = activeIndex * PILL_STEP;
+
+  // 图标颜色——根据主题和激活状态决定
+  const activeColor = isDark ? "#FF375F" : "#FF2D55";
+  const inactiveColor = isDark ? "#9e9ea3" : "#666";
+
+  // 组合 class
+  const sidebarClass = [
+    "sidebar",
+    isDark ? "dark" : "",
+    expanded ? "expanded" : "",
+  ].filter(Boolean).join(" ");
 
   return (
-    <aside className={`sidebar${isDark ? " dark" : ""}`}>
-      {/* 顶部品牌标识 */}
-      <div className="sidebar-brand">{"\u{1F3A8}"}</div>
+    <aside className={sidebarClass}>
+      {/* 顶部区域：Logo + 展开/收起按钮 */}
+      <div className="sidebar-header">
+        <button
+          className="sidebar-logo-btn"
+          onClick={() => setExpanded(!expanded)}
+          title={expanded ? "收起侧边栏" : "展开侧边栏"}
+        >
+          <PaletteIcon size={28} color={isDark ? "#e0e0e0" : "#333"} />
+        </button>
+        {/* 展开时显示切换按钮 */}
+        <button
+          className="sidebar-collapse-btn"
+          onClick={() => setExpanded(!expanded)}
+          title={expanded ? "收起侧边栏" : "展开侧边栏"}
+        >
+          <SidebarToggleIcon size={20} color={isDark ? "#b0b0b5" : "#666"} flipped={expanded} />
+        </button>
+      </div>
 
-      {/* 导航项列表 */}
+      {/* 导航列表 */}
       <nav className="sidebar-nav">
-        {/* 液态药丸指示器——通过 translateY 平滑滑动到激活项位置 */}
+        {/* 液态玻璃药丸——随 tab 切换纵向滑动，随展开收起横向拉伸 */}
         <div
           className={`sidebar-pill${isDark ? " dark" : ""}`}
           style={{ transform: `translateY(${pillY}px)` }}
         />
 
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname.startsWith(item.href) ||
+          const isActive =
+            pathname.startsWith(item.href) ||
             (pathname === "/" && item.href === "/messages");
 
           return (
@@ -62,7 +104,9 @@ export function Sidebar({ isDark }: SidebarProps) {
               href={item.href}
               className={`sidebar-item${isActive ? " active" : ""}`}
             >
-              <span className="sidebar-icon">{item.icon}</span>
+              <span className="sidebar-icon">
+                <item.Icon size={24} color={isActive ? activeColor : inactiveColor} />
+              </span>
               <span className="sidebar-label">{item.label}</span>
             </Link>
           );
