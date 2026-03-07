@@ -43,5 +43,8 @@
   // 使用单行 shell 命令，确保由 /bin/sh 解析并顺序执行，并修复 .claude 目录权限 + git 配置
   "postCreateCommand": "git config --global user.name 'LGJ' && git config --global user.email '1752104296@qq.com' && git config --global --add safe.directory /workspaces && (git lfs install --system || true) && (git lfs install --local --force || true)",
 
-  "features": {}
+  "features": {},
+
+  // 转发开发服务端口：7878=Next.js Web，9191=Expo Metro/Native，4040=ngrok inspector
+  "forwardPorts": [7878, 9191, 4040]
 }

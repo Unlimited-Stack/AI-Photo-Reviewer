@@ -44,8 +44,8 @@
    npm run dev
    ```
    此命令并行启动全部三个任务：
-   - **Web (Next.js)**: http://localhost:3000
-   - **Native Metro (Expo Tunnel)**: 终端输出二维码，用 Expo Go 扫码；同时 http://localhost:8080 可在浏览器预览 React Native 的 Web 渲染版本
+   - **Web (Next.js)**: http://localhost:7878
+   - **Native Metro (Expo Tunnel)**: 终端输出二维码，用 Expo Go 扫码；同时 http://localhost:9191 可在浏览器预览 React Native 的 Web 渲染版本
    - **UI Package (tsup watch)**: 自动编译共享组件
 
 ### 预览方式
@@ -54,8 +54,8 @@
 
 | 入口 | 说明 |
 |------|------|
-| http://localhost:3000 | Next.js Web 业务页面 |
-| http://localhost:8080 | React Native 的浏览器渲染版（Expo Web） |
+| http://localhost:7878 | Next.js Web 业务页面 |
+| http://localhost:9191 | React Native 的浏览器渲染版（Expo Web） |
 | Expo Go 扫码 | 真机预览（iOS / Android） |
 
 - **⚠️ 禁止在真机上手动 Reload**：按 Reload 会重新下载完整 JS bundle（约 5~15MB），须经 ngrok 隧道（手机 → ngrok 云 → Codespaces → Metro）传输，实测单次耗时 **3 分钟以上**（ngrok inspector 记录：`/entry.bundle 200 OK 181s / 202s`）。**修改代码后直接保存即可**，HMR 热更新为增量推送，手机端毫秒级响应，无需 Reload。
@@ -68,8 +68,8 @@
 
 | 端口 | 进程 | 说明 |
 |------|------|------|
-| `3000` | Next.js | Web 业务入口 |
-| `8080` | Expo Metro | Native bundle 服务 + Expo Web 入口 |
+| `7878` | Next.js | Web 业务入口 |
+| `9191` | Expo Metro | Native bundle 服务 + Expo Web 入口 |
 | `4040` | ngrok inspector | 显示所有经过 tunnel 的 HTTP 请求，可在 http://127.0.0.1:4040 打开。主要请求：`/entry.bundle`（JS bundle 下载）、`/message`（WebSocket，用于 HMR 热更新推送）、`/status`（Metro 状态轮询）。用于调试 tunnel 连通性和请求耗时。 |
 
 ### 容器环境与配置持久化

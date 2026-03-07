@@ -64,7 +64,7 @@
 >       ]
 >     }
 >   },
->   "forwardPorts": [3000, 8081],
+>   "forwardPorts": [7878, 9191],
 >   "remoteUser": "node"
 > }
 > ```

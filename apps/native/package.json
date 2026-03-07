@@ -4,8 +4,8 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
-    "dev": "EXPO_ROUTER_APP_ROOT=./app expo start --tunnel --port 8080",
-    "dev:clear": "EXPO_ROUTER_APP_ROOT=./app expo start --tunnel --port 8080 --clear",
+    "dev": "EXPO_ROUTER_APP_ROOT=./app expo start --tunnel --port 9191",
+    "dev:clear": "EXPO_ROUTER_APP_ROOT=./app expo start --tunnel --port 9191 --clear",
     "android": "expo run:android",
     "ios": "expo run:ios"
   },
