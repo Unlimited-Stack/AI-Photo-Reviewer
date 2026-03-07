@@ -1,8 +1,162 @@
-body {
+/**
+ * global.css — Web 端全局样式
+ * 定义根布局为左右结构：左侧固定侧边栏 + 右侧内容区。
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
   font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
     "Arial", sans-serif;
+  overflow: hidden; /* 由内容区自行控制滚动 */
+  transition: background-color 0.3s;
+}
+
+/* ── 根布局容器：左侧边栏 + 右侧内容 ────────────────────────── */
+.app-shell {
   display: flex;
   height: 100vh;
+  width: 100vw;
+}
+
+/* ── 液态玻璃侧边栏 ──────────────────────────────────────────── */
+.sidebar {
+  width: 72px;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0 20px;
+  gap: 4px;
+  position: relative;
+  z-index: 100;
+
+  /* 液态玻璃效果——浅色模式：偏灰调，半透明感更强 */
+  background: rgba(210, 210, 215, 0.55);
+  backdrop-filter: blur(48px) saturate(2.0);
+  -webkit-backdrop-filter: blur(48px) saturate(2.0);
+  border-right: 0.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+/* 深色模式侧边栏——泛白毛玻璃感更明显 */
+.sidebar.dark {
+  background: rgba(60, 60, 65, 0.6);
+  border-right-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 侧边栏顶部品牌 logo */
+.sidebar-brand {
+  font-size: 28px;
+  margin-bottom: 12px;
+  line-height: 1;
+  cursor: default;
+  user-select: none;
+}
+
+/* 导航项容器（自动撑满中间区域） */
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  position: relative;
+}
+
+/* 液态药丸选中指示器 */
+.sidebar-pill {
+  position: absolute;
+  left: 8px;
+  width: 56px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 0.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sidebar-pill.dark {
+  background: rgba(120, 120, 130, 0.45);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 单个导航项 */
+.sidebar-item {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 52px;
+  margin: 0 8px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sidebar-item:hover {
+  opacity: 0.8;
+}
+
+.sidebar-item:active {
+  opacity: 0.6;
+}
+
+/* 导航项 emoji 图标 */
+.sidebar-icon {
+  font-size: 22px;
+  line-height: 26px;
+}
+
+/* 导航项文字标签 */
+.sidebar-label {
+  font-size: 9px;
+  font-weight: 500;
+  margin-top: 1px;
+  color: #999;
+  transition: color 0.2s, font-weight 0.2s;
+  white-space: nowrap;
+}
+
+/* 选中态文字：品牌红 + 加粗 */
+.sidebar-item.active .sidebar-label {
+  color: #FF2D55;
+  font-weight: 700;
+}
+
+/* 深色模式未选中文字 */
+.sidebar.dark .sidebar-label {
+  color: #8E8E93;
+}
+
+/* 深色模式选中文字 */
+.sidebar.dark .sidebar-item.active .sidebar-label {
+  color: #FF375F;
+}
+
+/* ── 右侧内容区 ──────────────────────────────────────────────── */
+.main-content {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
 }
