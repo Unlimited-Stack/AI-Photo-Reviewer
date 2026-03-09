@@ -13,6 +13,7 @@ export default function AppLayout() {
     <ThemeProvider>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="settings" options={{ headerShown: false, presentation: "modal" }} />
       </Stack>
     </ThemeProvider>
   );

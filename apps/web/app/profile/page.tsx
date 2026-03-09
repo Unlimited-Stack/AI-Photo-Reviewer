@@ -3,5 +3,5 @@
 import { ProfileScreen } from "@repo/ui";
 
 export default function ProfilePage() {
-  return <ProfileScreen />;
+  return <ProfileScreen showHeader={false} />;
 }

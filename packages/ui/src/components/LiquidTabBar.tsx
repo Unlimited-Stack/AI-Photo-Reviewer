@@ -55,10 +55,10 @@ export interface LiquidTabBarProps {
 // 各 tab 的静态配置：路由名称、SVG 图标组件、显示文字
 // 顺序须与 (tabs)/_layout.tsx 中 Tabs.Screen 的声明顺序一致
 const TABS: { name: string; Icon: ComponentType<{ size?: number; color?: string }>; label: string }[] = [
-  { name: "index",    Icon: MessageIcon,     label: "消息" },
-  { name: "feed",     Icon: CommunityIcon,   label: "社区" },
-  { name: "ai-core",  Icon: PlusCircleIcon,  label: "锐评" },
+  { name: "feed",     Icon: CommunityIcon,   label: "首页" },
   { name: "cards",    Icon: CompassIcon,     label: "发现" },
+  { name: "ai-core",  Icon: PlusCircleIcon,  label: "锐评" },
+  { name: "index",    Icon: MessageIcon,     label: "消息" },
   { name: "profile",  Icon: PersonIcon,      label: "我的" },
 ];
 
